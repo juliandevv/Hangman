@@ -8,22 +8,53 @@ using System.Threading;
 
 namespace Hangman
 {
+    enum Difficulty 
+    { 
+        Easy,
+        Medium,
+        Hard
+    }
+
+    enum Screen
+    {
+        Title,
+        Main,
+        Settings
+    }
+
     internal class Program
     {
-        enum Screen
-        {
-            title,
-            main,
-            settings
-        }
-
         static void Main(string[] args)
         {
             // initialize main vars
-            Screen screen = Screen.title;
-            drawTitle();
-            Console.ReadLine();
+            Screen screen = Screen.Title;
+            while (true)
+            {
+                switch (screen)
+                {
+                    case Screen.Title:
+                        drawTitle();
+                        Console.ReadLine();
+                        screen = Screen.Main;
+                        break;
+                    case Screen.Main:
+                        game();
+                        break;
+                    case Screen.Settings:
+                        break;
+                }
+            }
+        }
 
+        static void game()
+        {
+            Word word = new Word(Difficulty.Easy);
+            while (true)
+            {
+                word.PrintWord();
+                Console.WriteLine();
+                word.GuessWord(Console.ReadLine().ToCharArray()[0]);
+            }
         }
 
         static void drawTitle()
@@ -31,6 +62,8 @@ namespace Hangman
             List<ConsoleColor> colors = new List<ConsoleColor>() { ConsoleColor.Red, ConsoleColor.Yellow, ConsoleColor.Blue, ConsoleColor.Cyan, ConsoleColor.Magenta };
             string[] lines = File.ReadAllLines(@"Title.txt");
             StringAnimation pressStart2Play = new StringAnimation("Press ENTER to start!");
+           
+            Console.CursorVisible = false;
 
             // write letters
             foreach (string line in lines)
@@ -42,7 +75,8 @@ namespace Hangman
             
             //Console.BackgroundColor = ConsoleColor.White;
             Console.SetCursorPosition((Console.WindowWidth / 2) - 11, Console.CursorTop + 5);
-            pressStart2Play.FlashAnimation(400, colors);
+            pressStart2Play.Write();
+            //pressStart2Play.FlashAnimation(400, colors);
         }
     }
 }

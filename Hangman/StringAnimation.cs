@@ -24,6 +24,11 @@ namespace Hangman
             set { _text = value; }
         }
 
+        public void Write()
+        {
+            Console.WriteLine(_text);
+        }
+
         public void TypewriterAnimation()
         {
             TypewriterAnimation(20, ConsoleColor.White);
@@ -42,7 +47,7 @@ namespace Hangman
 
         public void FlashAnimation()
         {
-            FlashAnimation(400, new List<ConsoleColor> { ConsoleColor.White });
+            FlashAnimation(300, new List<ConsoleColor> { ConsoleColor.White });
         }
 
         public void FlashAnimation(int delay, List<ConsoleColor> colors)
@@ -56,7 +61,7 @@ namespace Hangman
                 Thread.Sleep(delay);
                 Console.Write("\r" + new string(' ', Console.WindowWidth) + "\r");
                 Console.SetCursorPosition(cursorCoords[0], cursorCoords[1] - 1);
-                Thread.Sleep(delay/2);
+                Thread.Sleep(delay/5);
             }
             Console.WriteLine(_text);
             Console.ForegroundColor = ConsoleColor.White;
