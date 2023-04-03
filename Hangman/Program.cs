@@ -49,12 +49,18 @@ namespace Hangman
         static void game()
         {
             Word word = new Word(Difficulty.Easy);
-            while (true)
+            char[] guess;
+            while (!word.Solved)
             {
                 word.PrintWord();
                 Console.WriteLine();
-                word.GuessWord(Console.ReadLine().ToCharArray()[0]);
+                guess = Console.ReadLine().ToCharArray();
+                if (guess.Length > 0)
+                {
+                    word.GuessLetter(guess[0]);
+                }
             }
+            Console.ReadLine();
         }
 
         static void drawTitle()

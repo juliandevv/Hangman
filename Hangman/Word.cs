@@ -11,10 +11,11 @@ namespace Hangman
     {
         private static Random _generator = new Random();
         private string _word;
-        private List<char> _code = new List<char>();
+        private bool _solved;
+        private List<char> _code;
         private Difficulty _difficulty;
         private List<string> _words;
-        private List<char> _guesses;
+        private List<char> _guesses = new List<char>();
 
         public Word(Difficulty difficulty)
         {
@@ -22,28 +23,20 @@ namespace Hangman
             _words = File.ReadAllLines($"{difficulty.ToString()}Words.txt").ToList<string>();
             _word = _words[_generator.Next(0, _words.Count)];
             string underscores = new string('_', _word.Length);
-            _code.AddRange(underscores.ToCharArray());
+            _code = underscores.ToCharArray().ToList();
+            _solved = false;
         }
 
         public string SecretWord { get { return _word; } }
 
+        public bool Solved { get { return _solved; } }
+
         public void PrintWord()
         {
-            int index;
-            if (_guesses.Count > 0)
+            foreach (char c in _code)
             {
-                foreach (char guess in _guesses)
-                {
-                    index = _word.IndexOf(guess);
-                    if (index > -1)
-                    {
-                        _code.RemoveAt(index);
-                        _code.Insert(index, guess);
-                    }
-                }
+                Console.Write(c);
             }
-            
-            Console.WriteLine(_code);
         }
 
         public void NewWord()
@@ -59,16 +52,34 @@ namespace Hangman
             _words = File.ReadAllLines($"{newDifficulty.ToString()}Words.txt").ToList<string>();
         }
 
-        public void GuessWord(char c)
+        public void GuessLetter(char c)
         {
             if (_word.Contains(c))
             {
                 _guesses.Add(c);
+
+                for (int i = 0; i < _word.Length; i++)
+                {
+                    foreach (char guess in _guesses)
+                    {
+                        if (_word.ToCharArray()[i] == guess)
+                        {
+                            _code.RemoveAt(i);
+                            _code.Insert(i, guess);
+                        }
+                    }
+                }
                 Console.WriteLine("Good Guess!");
             }
             else
             {
                 Console.WriteLine("Bad Guess!");
+            }
+
+            if (!(_code.Contains('_')))
+            {
+                Console.WriteLine("You guessed the word!");
+                _solved = true;
             }
         }
     }
