@@ -47,13 +47,13 @@ namespace Hangman
 
         public void FlashAnimation()
         {
-            FlashAnimation(300, new List<ConsoleColor> { ConsoleColor.White });
+            FlashAnimation(300, 3, new List<ConsoleColor> { ConsoleColor.White });
         }
 
-        public void FlashAnimation(int delay, List<ConsoleColor> colors)
+        public void FlashAnimation(int delay, int iterations, List<ConsoleColor> colors)
         {
             int[] cursorCoords = { Console.CursorLeft, Console.CursorTop };
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < iterations; i++)
             {
                 Console.ForegroundColor = colors[_generator.Next(0, colors.Count)];
                 Console.SetCursorPosition(cursorCoords[0], cursorCoords[1] - 1);

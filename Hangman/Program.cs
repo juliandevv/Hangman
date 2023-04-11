@@ -50,15 +50,33 @@ namespace Hangman
         {
             Word word = new Word(Difficulty.Easy);
             char[] guess;
+            List<char> alpha = "abcdefghijklmnopqrstuvwxyz".ToCharArray().ToList();
+
             while (!word.Solved)
             {
+                Console.Clear();
+                Console.SetCursorPosition(Console.CursorLeft + 25, Console.CursorTop + 20);
                 word.PrintWord();
-                Console.WriteLine();
-                guess = Console.ReadLine().ToCharArray();
+                Console.SetCursorPosition(Console.CursorLeft + 37, Console.CursorTop - 1);
+             
+                foreach (char c in alpha)
+                {
+                    Console.Write(c);
+                    Console.Write(' ');
+                }
+                Console.SetCursorPosition(25, Console.CursorTop + 1);
+                guess = Console.ReadLine().ToLower().ToCharArray();
                 if (guess.Length > 0)
                 {
+                    Console.SetCursorPosition(25, Console.CursorTop + 1);
                     word.GuessLetter(guess[0]);
+                    alpha.Remove(guess[0]);
+                    //alpha.RemoveAt(alpha.IndexOf(guess[0]));
+                    //Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop);
+                    //word.PrintWord();
+                    //Console.ReadLine();
                 }
+
             }
             Console.ReadLine();
         }

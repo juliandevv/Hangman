@@ -29,6 +29,8 @@ namespace Hangman
 
         public string SecretWord { get { return _word; } }
 
+        public List<char> Guesses { get { return _guesses; } }
+
         public bool Solved { get { return _solved; } }
 
         public void PrintWord()
@@ -37,6 +39,7 @@ namespace Hangman
             {
                 Console.Write(c);
             }
+            Console.WriteLine();
         }
 
         public void NewWord()
@@ -54,6 +57,7 @@ namespace Hangman
 
         public void GuessLetter(char c)
         {
+            StringAnimation stringAnimation = new StringAnimation("Good Guess!");
             if (_word.Contains(c))
             {
                 _guesses.Add(c);
@@ -69,16 +73,23 @@ namespace Hangman
                         }
                     }
                 }
-                Console.WriteLine("Good Guess!");
+                stringAnimation.Text = "Good Guess!";
+                stringAnimation.FlashAnimation();
             }
             else
             {
-                Console.WriteLine("Bad Guess!");
+                stringAnimation.Text = "Bad Guess!";
+                stringAnimation.FlashAnimation();
             }
 
             if (!(_code.Contains('_')))
             {
-                Console.WriteLine("You guessed the word!");
+                Console.SetCursorPosition(25, Console.CursorTop - 3);
+                PrintWord();
+                //Console.WriteLine("You guessed the word!");
+                Console.SetCursorPosition(25, Console.CursorTop + 4);
+                stringAnimation.Text = "You guessed the word!";
+                stringAnimation.FlashAnimation(250, 10, new List<ConsoleColor> { ConsoleColor.DarkGreen, ConsoleColor.DarkRed, ConsoleColor.DarkYellow });
                 _solved = true;
             }
         }
