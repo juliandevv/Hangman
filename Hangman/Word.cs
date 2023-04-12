@@ -55,7 +55,7 @@ namespace Hangman
             _words = File.ReadAllLines($"{newDifficulty.ToString()}Words.txt").ToList<string>();
         }
 
-        public void GuessLetter(char c)
+        public void GuessLetter(char c, Man hangman)
         {
             StringAnimation stringAnimation = new StringAnimation("Good Guess!");
             if (_word.Contains(c))
@@ -78,6 +78,7 @@ namespace Hangman
             }
             else
             {
+                hangman.Strikes += 1;
                 stringAnimation.Text = "Bad Guess!";
                 stringAnimation.FlashAnimation();
             }
