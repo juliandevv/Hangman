@@ -52,8 +52,7 @@ namespace Hangman
                     case Screen.Main:
                         game(difficulty);
                         break;
-                    case Screen.Settings:
-                        settings();
+                    default:
                         break;
                 }
             }

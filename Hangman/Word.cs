@@ -26,7 +26,7 @@ namespace Hangman
             _code = underscores.ToCharArray().ToList();
             _solved = false;
         }
-
+        
         public string SecretWord { get { return _word; } }
 
         public List<char> Guesses { get { return _guesses; } }
