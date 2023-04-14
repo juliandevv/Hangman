@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Threading;
+using System.Runtime.Remoting.Messaging;
 
 namespace Hangman
 {
@@ -27,28 +28,40 @@ namespace Hangman
         static void Main(string[] args)
         {
             // initialize main vars
-            Screen screen = Screen.Title;
+            Screen screen;
+            Difficulty difficulty = Difficulty.Easy;
             while (true)
             {
+                drawTitle();
+
+                switch (Console.ReadKey().Key)
+                {
+                    case ConsoleKey.Spacebar:
+                        screen = Screen.Settings;
+                        break;
+                    default:
+                        screen = Screen.Main;
+                        break;
+                }
+
                 switch (screen)
                 {
                     case Screen.Title:
                         drawTitle();
-                        Console.ReadLine();
-                        screen = Screen.Main;
                         break;
                     case Screen.Main:
-                        game();
+                        game(difficulty);
                         break;
                     case Screen.Settings:
+                        settings();
                         break;
                 }
             }
         }
 
-        static void game()
+        static void game(Difficulty difficulty)
         {
-            Word word = new Word(Difficulty.Easy);
+            Word word = new Word(difficulty);
             Man hangman = new Man();
             StringAnimation stringAnimation = new StringAnimation("You Failed!!");
             char[] guess;
@@ -78,23 +91,27 @@ namespace Hangman
                     Console.WriteLine("The word was: " + word.SecretWord);
                     Console.SetCursorPosition(45, Console.CursorTop + 1);
                     stringAnimation.FlashAnimation(250, 10, new List<ConsoleColor> { ConsoleColor.DarkRed });
+                    Console.SetCursorPosition(45, Console.CursorTop + 1);
+                    Console.WriteLine("Press ENTER to play again!");
                     break;
                 }
 
                 Console.SetCursorPosition(25, Console.CursorTop + 1);
+                //Thread.Sleep(20);
                 guess = Console.ReadLine().ToLower().ToCharArray();
                 if (guess.Length > 0)
                 {
                     Console.SetCursorPosition(25, Console.CursorTop + 1);
                     word.GuessLetter(guess[0], hangman);
                     alpha.Remove(guess[0]);
-                    //alpha.RemoveAt(alpha.IndexOf(guess[0]));
-                    //Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop);
-                    //word.PrintWord();
-                    //Console.ReadLine();
                 }
             }
+            if (word.Solved)
+            {
+                difficulty += 1;
+            }
             Console.ReadLine();
+            Console.Clear();
         }
 
         static void drawTitle()
@@ -115,8 +132,39 @@ namespace Hangman
             
             //Console.BackgroundColor = ConsoleColor.White;
             Console.SetCursorPosition((Console.WindowWidth / 2) - 11, Console.CursorTop + 5);
-            pressStart2Play.Write();
-            //pressStart2Play.FlashAnimation(400, colors);
+            //pressStart2Play.Write();
+            pressStart2Play.FlashAnimation(50, 10);
+        }
+
+        static void settings()
+        {
+            Console.Clear();
+            Console.WriteLine("Which setting would you like to change?: Colour Theme[1] Difficulty[2]");
+            while (true)
+            {
+                string response = Console.ReadLine();
+                if (int.TryParse(response, out int selection))
+                {
+                    if (selection == 1)
+                    {
+                        break;
+                    }
+                    else if (selection == 2)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Not a valid input!");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Not a valid input!");
+                }
+            }
+
+            Console.Clear();
         }
     }
 }

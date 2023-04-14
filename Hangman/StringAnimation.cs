@@ -50,6 +50,11 @@ namespace Hangman
             FlashAnimation(300, 3, new List<ConsoleColor> { ConsoleColor.White });
         }
 
+        public void FlashAnimation(int delay, int iterations)
+        {
+            FlashAnimation(delay, iterations, new List<ConsoleColor> { ConsoleColor.White });
+        }
+
         public void FlashAnimation(int delay, int iterations, List<ConsoleColor> colors)
         {
             int[] cursorCoords = { Console.CursorLeft, Console.CursorTop };
