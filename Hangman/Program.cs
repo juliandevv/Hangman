@@ -95,8 +95,6 @@ namespace Hangman
                     Console.WriteLine("The word was: " + word.SecretWord);
                     Console.SetCursorPosition(45, Console.CursorTop + 1);
                     stringAnimation.FlashAnimation(250, 10, new List<ConsoleColor> { ConsoleColor.DarkRed });
-                    Console.SetCursorPosition(45, Console.CursorTop + 1);
-                    Console.WriteLine("Press ENTER to play again!");
                     break;
                 }
 
@@ -177,7 +175,7 @@ namespace Hangman
         static void drawTitle()
         {
             List<ConsoleColor> colors = new List<ConsoleColor>() { ConsoleColor.Red, ConsoleColor.Yellow, ConsoleColor.Blue, ConsoleColor.Cyan, ConsoleColor.Magenta };
-            string[] lines = File.ReadAllLines(@"Title.txt");
+            string[] lines = File.ReadAllLines(@"Assets\Title.txt");
             StringAnimation pressStart2Play = new StringAnimation("Press ENTER to start!");
            
             Console.CursorVisible = false;

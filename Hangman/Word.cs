@@ -20,7 +20,7 @@ namespace Hangman
         public Word(Difficulty difficulty, string word)
         {
             _difficulty = difficulty;
-            _words = File.ReadAllLines($"{difficulty.ToString()}Words.txt").ToList<string>();
+            _words = File.ReadAllLines($"Assets\\{difficulty.ToString()}Words.txt").ToList<string>();
             _word = word;
             string underscores = new string('_', _word.Length);
             _code = underscores.ToCharArray().ToList();
@@ -53,7 +53,7 @@ namespace Hangman
         public void ChangeDifficulty(Difficulty newDifficulty)
         {
             _difficulty = newDifficulty;
-            _words = File.ReadAllLines($"{newDifficulty.ToString()}Words.txt").ToList<string>();
+            _words = File.ReadAllLines($"Assets\\{newDifficulty.ToString()}Words.txt").ToList<string>();
         }
 
         public void GuessLetter(char c, Man hangman)

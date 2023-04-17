@@ -20,11 +20,11 @@ namespace Hangman
 
         public Man()
         {
-            _stand = File.ReadAllLines(@"Stand.txt").ToList();
-            _head = File.ReadAllLines(@"Head.txt").ToList();
-            _body = File.ReadAllLines(@"Body.txt").ToList();
-            _legs = File.ReadAllLines(@"Legs.txt").ToList();
-            _feet = File.ReadAllLines(@"Feet.txt").ToList();
+            _stand = File.ReadAllLines(@"Assets\Stand.txt").ToList();
+            _head = File.ReadAllLines(@"Assets\Head.txt").ToList();
+            _body = File.ReadAllLines(@"Assets\Body.txt").ToList();
+            _legs = File.ReadAllLines(@"Assets\Legs.txt").ToList();
+            _feet = File.ReadAllLines(@"Assets\Feet.txt").ToList();
             _strikes = 0;
             _fail = false;
         }
