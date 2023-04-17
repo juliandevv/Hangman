@@ -60,7 +60,12 @@ namespace Hangman
 
         static void game(Difficulty difficulty)
         {
-            Word word = new Word(difficulty);
+            string secretWord = customWord();
+            Word word = new Word(difficulty, secretWord);
+            if (secretWord == "")
+            {
+                word.NewWord();
+            }
             Man hangman = new Man();
             StringAnimation stringAnimation = new StringAnimation("You Failed!!");
             char[] guess;
@@ -69,18 +74,18 @@ namespace Hangman
             while (!word.Solved)
             {
                 Console.Clear();
-                
+
                 hangman.Draw();
                 Console.SetCursorPosition(Console.CursorLeft + 25, Console.CursorTop);
                 word.PrintWord();
                 Console.SetCursorPosition(Console.CursorLeft + 37, Console.CursorTop - 1);
-             
+
                 foreach (char c in alpha)
                 {
                     Console.Write(c);
                     Console.Write(' ');
                 }
-                
+
                 //Console.WriteLine(hangman.Strikes);
 
                 if (hangman.Fail)
@@ -105,12 +110,68 @@ namespace Hangman
                     alpha.Remove(guess[0]);
                 }
             }
-            if (word.Solved)
-            {
-                difficulty += 1;
-            }
+            Console.SetCursorPosition(45, Console.CursorTop + 1);
+            Console.WriteLine("Press ENTER to play again!");
             Console.ReadLine();
             Console.Clear();
+        }
+
+        static string customWord()
+        {
+            Console.Clear();
+            string word;
+            Console.SetCursorPosition(25, 10);
+            Console.WriteLine("Enter a secret word to guess!");
+            Console.SetCursorPosition(25, Console.CursorTop);
+            Console.WriteLine("The word will be randomly generated if you enter nothing.");
+            Console.SetCursorPosition(25, Console.CursorTop);
+
+            while (true)
+            {
+                string response = anonymousEntry();
+
+                if (response.All(Char.IsLetter) || response == "")
+                {
+                    word = response.ToLower();
+                    break;
+                }
+                else
+                {
+                    Console.Write("\r" + new string(' ', Console.WindowWidth) + "\r");
+                    Console.SetCursorPosition(25, Console.CursorTop);
+                    Console.WriteLine("Not a valid word!");
+                    Console.SetCursorPosition(25, Console.CursorTop - 2);
+                }
+            }
+
+            return word;
+        }
+
+        static string anonymousEntry()
+        {
+            char c;
+            List<char> letters = new List<char>();
+            ConsoleKey key;
+            string word;
+
+            while (true)
+            {
+                key = Console.ReadKey().Key;
+                if (key != ConsoleKey.Enter)
+                {
+                    c = (char)key;
+                    Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
+                    Console.Write('*');
+                    letters.Add(c);
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            word = new string(letters.ToArray());
+            return word;
         }
 
         static void drawTitle()

@@ -17,11 +17,11 @@ namespace Hangman
         private List<string> _words;
         private List<char> _guesses = new List<char>();
 
-        public Word(Difficulty difficulty)
+        public Word(Difficulty difficulty, string word)
         {
             _difficulty = difficulty;
             _words = File.ReadAllLines($"{difficulty.ToString()}Words.txt").ToList<string>();
-            _word = _words[_generator.Next(0, _words.Count)];
+            _word = word;
             string underscores = new string('_', _word.Length);
             _code = underscores.ToCharArray().ToList();
             _solved = false;
@@ -45,6 +45,7 @@ namespace Hangman
         public void NewWord()
         {
             _word = _words[_generator.Next(0, _words.Count)];
+            _code.Clear();
             string underscores = new string('_', _word.Length);
             _code.AddRange(underscores.ToCharArray());
         }
